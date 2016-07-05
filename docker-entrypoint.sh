@@ -15,4 +15,8 @@ if [ ! "$(id -g fluent)" -eq "$PGID" ]; then
     su -c "groupmod -o -g $PGID $GROUP"
 fi
 
+# if [ "${1:0:1}" = '-' ]; then
+#     set -- fluentd "$@"
+# fi
+
 exec "$@"
