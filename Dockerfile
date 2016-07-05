@@ -18,7 +18,8 @@ RUN apk --no-cache --update add \
     rm -rf /tmp/* /var/tmp/* /var/cache/apk/*
 
 COPY ./init.sh /
-RUN /bin/bash /init.sh
+RUN chmod +x /init.sh
+RUN /init.sh
 
 RUN chown -R fluent:fluent /home/fluent
 
