@@ -5,7 +5,7 @@ MAINTAINER Tony Shao <xiocode@gmail.com>
 # Docker creates a layer for every RUN-Statement
 # therefore an 'apk delete build*' has no effect
 
-RUN echo "http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
+RUN echo "http://nl.alpinelinux.org/alpine/edge/testing/" >> /etc/apk/repositories
 RUN apk --no-cache --update add \
                             bash \
                             shadow \
@@ -44,7 +44,7 @@ COPY fluent.conf /fluentd/etc/
 ENV FLUENTD_OPT=""
 ENV FLUENTD_CONF="fluent.conf"
 
-COPY ./docker-entrypoint /
+COPY ./docker-entrypoint.sh /
 ENTRYPOINT ["/sbin/tini", "--", "/docker-entrypoint.sh"]
 
 EXPOSE 24224 5140
