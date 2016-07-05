@@ -41,9 +41,8 @@ COPY fluent.conf /fluentd/etc/
 ENV FLUENTD_OPT=""
 ENV FLUENTD_CONF="fluent.conf"
 
-COPY add_user_fluent.sh /home/fluent
-RUN chmod +x add_user_fluent.sh
-RUN exec /home/fluent/add_user_fluent.sh
+COPY ./docker-entrypoint.sh /
+ENTRYPOINT ["/docker-entrypoint.sh"]
 
 EXPOSE 24224 5140
 
