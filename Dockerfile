@@ -1,4 +1,4 @@
-FROM alpine:3.4
+FROM alpine:edge
 MAINTAINER Tony Shao <xiocode@gmail.com>
 
 # Do not split this into multiple RUN!
@@ -6,6 +6,7 @@ MAINTAINER Tony Shao <xiocode@gmail.com>
 # therefore an 'apk delete build*' has no effect
 RUN apk --no-cache --update add \
                             bash \
+                            shadow \
                             tini \
                             build-base \
                             ca-certificates \
@@ -18,13 +19,7 @@ RUN apk --no-cache --update add \
     apk del build-base ruby-dev && \
     rm -rf /tmp/* /var/tmp/* /var/cache/apk/*
 
-#COPY ./docker-entrypoint /
-#ENTRYPOINT ["/sbin/tini", "--", "/docker-entrypoint.sh"]
-
-ADD init.sh /init.sh
-RUN chmod 750 /init.sh
-RUN /bin/bash -c "/init.sh"
-
+RUN adduser -D -g '' -u 1000 -h /home/fluent fluent
 RUN chown -R fluent:fluent /home/fluent
 
 # for log storage (maybe shared with host)
@@ -46,6 +41,9 @@ COPY fluent.conf /fluentd/etc/
 
 ENV FLUENTD_OPT=""
 ENV FLUENTD_CONF="fluent.conf"
+
+COPY ./docker-entrypoint /
+ENTRYPOINT ["/sbin/tini", "--", "/docker-entrypoint.sh"]
 
 EXPOSE 24224 5140
 
