@@ -6,6 +6,7 @@ MAINTAINER Tony Shao <xiocode@gmail.com>
 # therefore an 'apk delete build*' has no effect
 RUN apk --no-cache --update add \
                             bash \
+                            tini \
                             build-base \
                             ca-certificates \
                             ruby \
@@ -17,9 +18,12 @@ RUN apk --no-cache --update add \
     apk del build-base ruby-dev && \
     rm -rf /tmp/* /var/tmp/* /var/cache/apk/*
 
-COPY ./init.sh /
-RUN chmod +x /init.sh
-RUN /init.sh
+#COPY ./docker-entrypoint /
+#ENTRYPOINT ["/sbin/tini", "--", "/docker-entrypoint.sh"]
+
+ADD init.sh /init.sh
+RUN chmod 750 /init.sh
+RUN /bin/bash -c "/init.sh"
 
 RUN chown -R fluent:fluent /home/fluent
 
