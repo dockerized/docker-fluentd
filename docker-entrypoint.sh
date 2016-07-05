@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 USER="fluent"
 GROUP="fluent"
 
