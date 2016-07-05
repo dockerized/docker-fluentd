@@ -5,14 +5,14 @@ set -e
 USER="fluent"
 GROUP="fluent"
 
-PUID=${PUID:-911}
-PGID=${PGID:-911}
+PUID=${PUID:-1001}
+PGID=${PGID:-1001}
 
 if [ ! "$(id -u fluent)" -eq "$PUID" ]; then
-    usermod -o -u "$PUID" $USER
+    su -c "usermod -o -u $PUID $USER"
 fi
 if [ ! "$(id -g fluent)" -eq "$PGID" ]; then
-    groupmod -o -g "$PGID" $GROUP
+    su -c "groupmod -o -g $PGID $GROUP"
 fi
 
 exec "$@"

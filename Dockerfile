@@ -21,8 +21,11 @@ RUN apk --no-cache --update add \
     apk del build-base ruby-dev && \
     rm -rf /tmp/* /var/tmp/* /var/cache/apk/*
 
-RUN adduser -D -g '' -u 1001 -h /home/fluent fluent
+RUN adduser -D -g '' -u 1000 -h /home/fluent fluent
 RUN chown -R fluent:fluent /home/fluent
+
+USER fluent
+WORKDIR /home/fluent
 
 # for log storage (maybe shared with host)
 RUN mkdir -p /fluentd/log
@@ -43,9 +46,6 @@ ENV FLUENTD_CONF="fluent.conf"
 
 COPY ./docker-entrypoint.sh /
 ENTRYPOINT ["/sbin/tini", "--", "/docker-entrypoint.sh"]
-
-USER fluent
-WORKDIR /home/fluent
 
 EXPOSE 24224 5140
 
