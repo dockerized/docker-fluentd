@@ -14,3 +14,5 @@ fi
 if [ ! "$(id -g fluent)" -eq "$PGID" ]; then
     groupmod -o -g "$PGID" $GROUP
 fi
+
+exec "$@"
