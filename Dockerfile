@@ -24,15 +24,15 @@ RUN apk --no-cache --update add \
 RUN adduser -D -g '' -u 1000 -h /home/fluent fluent
 RUN chown -R fluent:fluent /home/fluent
 
-USER fluent
-WORKDIR /home/fluent
-
 # for log storage (maybe shared with host)
 RUN mkdir -p /fluentd/log
 # configuration/plugins path (default: copied from .)
 RUN mkdir -p /fluentd/etc /fluentd/plugins
 
 RUN chown -R fluent:fluent /fluentd
+
+USER fluent
+WORKDIR /home/fluent
 
 # Tell ruby to install packages as user
 RUN echo "gem: --user-install --no-document" >> ~/.gemrc
