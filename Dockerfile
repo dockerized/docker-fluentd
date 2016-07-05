@@ -4,6 +4,8 @@ MAINTAINER Tony Shao <xiocode@gmail.com>
 # Do not split this into multiple RUN!
 # Docker creates a layer for every RUN-Statement
 # therefore an 'apk delete build*' has no effect
+
+RUN echo "http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
 RUN apk --no-cache --update add \
                             bash \
                             shadow \
