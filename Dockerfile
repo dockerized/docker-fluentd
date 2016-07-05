@@ -6,6 +6,7 @@ MAINTAINER Tony Shao <xiocode@gmail.com>
 # therefore an 'apk delete build*' has no effect
 RUN apk --no-cache --update add \
                             bash \
+                            shadow \
                             build-base \
                             ca-certificates \
                             ruby \
