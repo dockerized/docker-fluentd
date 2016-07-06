@@ -9,10 +9,14 @@ PUID=${PUID:-1001}
 PGID=${PGID:-1001}
 
 if [ ! "$(id -u fluent)" -eq "$PUID" ]; then
-    sudo su -c "usermod -o -u $PUID $USER"
+    su -c << BASH
+        "usermod -o -u $PUID $USER"
+    BASH
 fi
 if [ ! "$(id -g fluent)" -eq "$PGID" ]; then
-    sudo su -c "groupmod -o -g $PGID $GROUP"
+    su -c << BASH
+        "groupmod -o -g $PGID $GROUP"
+    BASH
 fi
 
 # if [ "${1:0:1}" = '-' ]; then
