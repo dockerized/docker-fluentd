@@ -21,6 +21,8 @@ RUN apk --no-cache --update add \
     apk del build-base ruby-dev && \
     rm -rf /tmp/* /var/tmp/* /var/cache/apk/*
 
+COPY ./docker-entrypoint.sh /
+
 RUN adduser -D -g '' -u 1000 -h /home/fluent fluent
 RUN echo "fluent ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 RUN chown -R fluent:fluent /home/fluent
@@ -45,7 +47,7 @@ COPY fluent.conf /fluentd/etc/
 ENV FLUENTD_OPT=""
 ENV FLUENTD_CONF="fluent.conf"
 
-COPY ./docker-entrypoint.sh /
+USER root
 ENTRYPOINT ["/sbin/tini", "--", "/docker-entrypoint.sh"]
 
 EXPOSE 24224 5140
