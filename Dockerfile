@@ -25,9 +25,6 @@ RUN apk --no-cache --update add \
 RUN adduser -D -g '' -u 1000 -h /home/fluent fluent
 RUN chown -R fluent:fluent /home/fluent
 
-RUN echo "root ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
-RUN echo "fluent ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
-
 # for log storage (maybe shared with host)
 RUN mkdir -p /fluentd/log
 # configuration/plugins path (default: copied from .)
