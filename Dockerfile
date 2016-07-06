@@ -47,8 +47,7 @@ COPY fluent.conf /fluentd/etc/
 ENV FLUENTD_OPT=""
 ENV FLUENTD_CONF="fluent.conf"
 
-USER root
-ENTRYPOINT ["/sbin/tini", "--", "/docker-entrypoint.sh"]
+#ENTRYPOINT ["/sbin/tini", "--", "/docker-entrypoint.sh"]
 
 EXPOSE 24224 5140
 
