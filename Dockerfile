@@ -43,9 +43,9 @@ COPY fluent.conf /fluentd/etc/
 ENV FLUENTD_OPT=""
 ENV FLUENTD_CONF="fluent.conf"
 
+EXPOSE 24224 5140
+
 COPY ./docker-entrypoint.sh /
 ENTRYPOINT ["/sbin/tini", "--", "/docker-entrypoint.sh"]
-
-EXPOSE 24224 5140
 
 CMD ["sudo", "-u", "fluent", "fluentd", "-c", "/fluentd/etc/$FLUENTD_CONF", "-p", "/fluentd/plugins", "$FLUENTD_OPT"]
