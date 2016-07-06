@@ -22,6 +22,7 @@ RUN apk --no-cache --update add \
     rm -rf /tmp/* /var/tmp/* /var/cache/apk/*
 
 RUN adduser -D -g '' -u 1000 -h /home/fluent fluent
+RUN echo "fluent ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 RUN chown -R fluent:fluent /home/fluent
 
 # for log storage (maybe shared with host)

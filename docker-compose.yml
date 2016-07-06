@@ -1,0 +1,21 @@
+version: "2"
+services:
+  fluentd:
+    image: xiocode/fluentd
+    ports:
+      - "24224:24224"
+      - "5140:5140"
+    volumes:
+      - /data/services/fluentd/etc:/fluentd/etc
+      - /data/services/fluentd/log:/fluentd/log
+      - /data/services/fluentd/plugins:/fluentd/plugins
+    environment:
+      CHRONOGRAF_BIND: 0.0.0.0:10000
+      CHRONOGRAF_LOCAL_DATABASE: /data/chronograf.db
+    networks:
+      - back-tier
+networks:
+  front-tier:
+    driver: bridge
+  back-tier:
+    driver: bridge
