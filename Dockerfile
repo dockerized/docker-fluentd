@@ -40,12 +40,7 @@ ENV GEM_PATH /home/fluent/.gem/ruby/2.3.0:$GEM_PATH
 
 COPY fluent.conf /fluentd/etc/
 
-ENV FLUENTD_OPT=""
-ENV FLUENTD_CONF="fluent.conf"
-
 EXPOSE 24224 5140
 
 COPY ./docker-entrypoint.sh /
 ENTRYPOINT ["/sbin/tini", "--", "/docker-entrypoint.sh"]
-
-CMD ["sudo", "-u", "fluent", "fluentd", "-c", "/fluentd/etc/$FLUENTD_CONF", "-p", "/fluentd/plugins", "$FLUENTD_OPT"]

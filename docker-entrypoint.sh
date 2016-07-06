@@ -4,6 +4,8 @@ set -e
 
 USER="fluent"
 GROUP="fluent"
+FLUENTD_OPT=""
+FLUENTD_CONF="fluent.conf"
 
 PUID=${PUID:-1001}
 PGID=${PGID:-1001}
@@ -19,8 +21,4 @@ fi
 chown -R $USER:$GROUP /fluentd
 chown -R $USER:$GROUP /home/fluent
 
-# if [ "${1:0:1}" = '-' ]; then
-#     set -- sudo -u fluent fluentd "$@"
-# fi
-
-exec "$@"
+sudo -u fluent fluentd -c /fluentd/etc/$FLUENTD_CONF -p /fluentd/plugins $FLUENTD_OPT
