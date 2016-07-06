@@ -18,8 +18,4 @@ fi
 chown -R $USER:$GROUP /fluentd
 chown -R $USER:$GROUP /home/fluent
 
-# if [ "${1:0:1}" = '-' ]; then
-#     set -- fluentd "$@"
-# fi
-
 exec "$@"
