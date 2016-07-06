@@ -9,14 +9,14 @@ PUID=${PUID:-1001}
 PGID=${PGID:-1001}
 
 if [ ! "$(id -u fluent)" -eq "$PUID" ]; then
-    su -c << EOF
+    su -c << BASH
         usermod -o -u $PUID $USER
-    EOF
+    BASH
 fi
 if [ ! "$(id -g fluent)" -eq "$PGID" ]; then
-    su -c << EOF
+    su -c << BASH
         groupmod -o -g $PGID $GROUP
-    EOF
+    BASH
 fi
 
 # if [ "${1:0:1}" = '-' ]; then
