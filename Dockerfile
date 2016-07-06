@@ -8,6 +8,7 @@ MAINTAINER Tony Shao <xiocode@gmail.com>
 RUN echo "http://nl.alpinelinux.org/alpine/edge/testing/" >> /etc/apk/repositories
 RUN apk --no-cache --update add \
                             bash \
+                            sudo \
                             shadow \
                             tini \
                             build-base \
@@ -24,11 +25,13 @@ RUN apk --no-cache --update add \
 RUN adduser -D -g '' -u 1000 -h /home/fluent fluent
 RUN chown -R fluent:fluent /home/fluent
 
+RUN echo "root ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+RUN echo "fluent ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
 # for log storage (maybe shared with host)
 RUN mkdir -p /fluentd/log
 # configuration/plugins path (default: copied from .)
 RUN mkdir -p /fluentd/etc /fluentd/plugins
-
 RUN chown -R fluent:fluent /fluentd
 
 WORKDIR /home/fluent
@@ -48,4 +51,4 @@ ENTRYPOINT ["/sbin/tini", "--", "/docker-entrypoint.sh"]
 
 EXPOSE 24224 5140
 
-CMD ["su", "-c", "\"fluentd -c /fluentd/etc/$FLUENTD_CONF -p /fluentd/plugins $FLUENTD_OPT\"", "-m", "fluent"]
+CMD ["sudo", "-u", "fluent", "fluentd", "-c", "/fluentd/etc/$FLUENTD_CONF", "-p", "/fluentd/plugins", "$FLUENTD_OPT"]
