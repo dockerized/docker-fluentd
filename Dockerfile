@@ -9,7 +9,6 @@ RUN echo "http://nl.alpinelinux.org/alpine/edge/testing/" >> /etc/apk/repositori
 RUN apk --no-cache --update add \
                             bash \
                             shadow \
-                            sudo \
                             tini \
                             build-base \
                             ca-certificates \
@@ -24,8 +23,6 @@ RUN apk --no-cache --update add \
 
 RUN adduser -D -g '' -u 1000 -h /home/fluent fluent
 RUN chown -R fluent:fluent /home/fluent
-
-RUN echo "fluent ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 # for log storage (maybe shared with host)
 RUN mkdir -p /fluentd/log
