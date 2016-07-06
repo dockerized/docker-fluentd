@@ -48,4 +48,4 @@ ENTRYPOINT ["/sbin/tini", "--", "/docker-entrypoint.sh"]
 
 EXPOSE 24224 5140
 
-CMD ["exec", "sudo", "-u", "fluent", "fluentd", "-c", "/fluentd/etc/$FLUENTD_CONF", "-p", "/fluentd/plugins", "$FLUENTD_OPT"]
+CMD ["sudo", "-u", "fluent", "fluentd", "-c", "/fluentd/etc/$FLUENTD_CONF", "-p", "/fluentd/plugins", "$FLUENTD_OPT"]
