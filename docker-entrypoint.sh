@@ -18,4 +18,3 @@ fi
 chown -R $USER:$GROUP /fluentd
 chown -R $USER:$GROUP /home/fluent
 
-exec "$@"

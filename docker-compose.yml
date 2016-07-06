@@ -9,9 +9,10 @@ services:
       - /data/services/fluentd/etc:/fluentd/etc
       - /data/services/fluentd/log:/fluentd/log
       - /data/services/fluentd/plugins:/fluentd/plugins
+    command: sudo -u fluent fluentd -c /fluentd/etc/fluent.conf -p /fluentd/plugins -v
     environment:
-      CHRONOGRAF_BIND: 0.0.0.0:10000
-      CHRONOGRAF_LOCAL_DATABASE: /data/chronograf.db
+      PUID: 1001
+      PGID: 1001
     networks:
       - back-tier
 networks:
