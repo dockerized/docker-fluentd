@@ -9,6 +9,7 @@ RUN echo "http://nl.alpinelinux.org/alpine/edge/testing/" >> /etc/apk/repositori
 RUN apk --no-cache --update add \
                             bash \
                             shadow \
+                            sudo \
                             tini \
                             build-base \
                             ca-certificates \
@@ -21,11 +22,10 @@ RUN apk --no-cache --update add \
     apk del build-base ruby-dev && \
     rm -rf /tmp/* /var/tmp/* /var/cache/apk/*
 
-COPY ./docker-entrypoint.sh /
-
 RUN adduser -D -g '' -u 1000 -h /home/fluent fluent
-RUN echo "fluent ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 RUN chown -R fluent:fluent /home/fluent
+
+RUN echo "fluent ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 # for log storage (maybe shared with host)
 RUN mkdir -p /fluentd/log
@@ -47,7 +47,8 @@ COPY fluent.conf /fluentd/etc/
 ENV FLUENTD_OPT=""
 ENV FLUENTD_CONF="fluent.conf"
 
-#ENTRYPOINT ["/sbin/tini", "--", "/docker-entrypoint.sh"]
+COPY ./docker-entrypoint.sh /
+ENTRYPOINT ["/sbin/tini", "--", "/docker-entrypoint.sh"]
 
 EXPOSE 24224 5140
 
