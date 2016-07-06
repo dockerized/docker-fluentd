@@ -34,11 +34,10 @@ RUN mkdir -p /fluentd/etc /fluentd/plugins
 
 RUN chown -R fluent:fluent /fluentd
 
-USER fluent
 WORKDIR /home/fluent
 
 # Tell ruby to install packages as user
-RUN echo "gem: --user-install --no-document" >> ~/.gemrc
+RUN echo "gem: --user-install --no-document" >> /home/fluent/.gemrc
 ENV PATH /home/fluent/.gem/ruby/2.3.0/bin:$PATH
 ENV GEM_PATH /home/fluent/.gem/ruby/2.3.0:$GEM_PATH
 
@@ -52,4 +51,4 @@ ENTRYPOINT ["/sbin/tini", "--", "/docker-entrypoint.sh"]
 
 EXPOSE 24224 5140
 
-CMD ["exec", "fluentd", "-c", "/fluentd/etc/$FLUENTD_CONF", "-p", "/fluentd/plugins", "$FLUENTD_OPT"]
+CMD ["su", "-c" "\"fluentd -c /fluentd/etc/$FLUENTD_CONF -p /fluentd/plugins $FLUENTD_OPT\"", "-m", "fluent"]
